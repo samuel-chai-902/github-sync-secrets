@@ -2,7 +2,6 @@ from os import getcwd
 from os.path import exists, expanduser
 from argparse import ArgumentParser
 from subprocess import run, check_output
-from base64 import b64encode
 
 
 def get_files_for_sync(secret_name, appended):
@@ -48,8 +47,8 @@ def parse_secrets_file(upload_files):
 
 
 def sync_secret_to_github(secret_name, secret_value, owner, repository):
-    secret_value_base64 = b64encode(secret_value.encode()).decode()
-    cmd = f"gh secret set {secret_name} --repo {owner}/{repository} --body '{secret_value_base64}'"
+    cmd = f"gh secret set {secret_name} --repo {owner}/{repository} --body '{secret_value}'"
+    print(cmd)
     run(cmd, shell=True, check=True, text=True)
 
 
