@@ -38,7 +38,7 @@ def parse_secrets_file(upload_files):
             for line in file:
                 if "=" not in line:
                     continue
-                line = line.replace(" ", "").replace("\"", "").replace("'", "")
+                line = line.replace(" ", "").replace("\"", "").replace("'", "").replace("\n", "")
                 secret_name = line.split("=")[0].upper()
                 secret_value = line.split("=")[1]
                 secret_dict[secret_name] = secret_value
@@ -47,13 +47,11 @@ def parse_secrets_file(upload_files):
 
 
 def sync_secret_to_github(secret_name, secret_value, owner, repository):
-    cmd = f"gh secret set {secret_name} --repo {owner}/{repository} --body '{secret_value}'"
+    cmd = f"gh secret set {secret_name} --repo {owner}/{repository} -b '{secret_value}'"
     run(cmd, shell=True, check=True, text=True)
 
 
 if __name__ == "__main__":
-
-
     parser = ArgumentParser()
     parser.add_argument('-s', '--secrets', dest='secrets', default='.env', help="The file name to create secrets for.")
     parser.add_argument('-r', '--repository', dest='repo', help="The name of the repository to import to.")
