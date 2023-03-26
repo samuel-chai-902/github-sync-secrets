@@ -48,7 +48,6 @@ def parse_secrets_file(upload_files):
 
 def sync_secret_to_github(secret_name, secret_value, owner, repository):
     cmd = f"gh secret set {secret_name} --repo {owner}/{repository} --body '{secret_value}'"
-    print(cmd)
     run(cmd, shell=True, check=True, text=True)
 
 
